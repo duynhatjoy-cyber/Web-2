@@ -1,6 +1,6 @@
 import './style.css'
 
-if (window.location.pathname.replace(/\/$/, '') === '/booking') {
+if (new URLSearchParams(window.location.search).get('page') === 'booking' || window.location.pathname.replace(/\/$/, '') === '/booking') {
   import('./booking.js')
 } else {
 
@@ -25,7 +25,7 @@ const mark = `<svg class="brand-mark" viewBox="0 0 80 80" aria-hidden="true"><pa
 const logo = `<a class="logo" href="#top" aria-label="Lifrooms, về đầu trang">${mark}<span class="logo-words"><strong><span>Lif</span><em>rooms</em></strong><small>Your Trusted Partner</small></span></a>`
 
 document.querySelector('#app').innerHTML = `
-<header class="site-header" id="top"><div class="container nav-wrap">${logo}<button class="menu-toggle" aria-label="Mở menu" aria-expanded="false">☰</button><nav class="main-nav" aria-label="Điều hướng chính"><a href="#booking">Đặt phòng</a><a href="#destinations">Điểm đến</a><a href="#experience">Trải nghiệm</a><a href="#about">Về Lifrooms</a></nav><a class="nav-contact" href="mailto:hello@lifrooms.vn">Liên hệ tư vấn ↗</a></div><div class="sticky-booking container" id="sticky-booking"></div></header>
+<header class="site-header" id="top"><div class="container nav-wrap">${logo}<button class="menu-toggle" aria-label="Mở menu" aria-expanded="false">☰</button><nav class="main-nav" aria-label="Điều hướng chính"><a href="${import.meta.env.BASE_URL}?page=booking">Đặt phòng</a><a href="#destinations">Điểm đến</a><a href="#experience">Trải nghiệm</a><a href="#about">Về Lifrooms</a></nav><a class="nav-contact" href="mailto:hello@lifrooms.vn">Liên hệ tư vấn ↗</a></div><div class="sticky-booking container" id="sticky-booking"></div></header>
 <main>
 <section class="hero" style="--hero-image:url('${img.hero}')"><div class="hero-shade"></div><div class="container hero-inner"><div class="hero-copy"><p class="eyebrow light" id="hero-kicker">LIFROOMS · KHÔNG GIAN LƯU TRÚ TIN CẬY</p><h1 id="hero-title">Nơi mỗi chuyến đi<br><i>trở nên đáng nhớ.</i></h1><p class="hero-description" id="hero-description">Khám phá những không gian lưu trú tinh tế, tiện nghi và đầy cảm hứng tại những điểm đến bạn yêu thích.</p><a class="outline-button" href="#destinations">KHÁM PHÁ LIFROOMS <span>↗</span></a></div><div class="hero-bottom"><div class="hero-feature"><span class="feature-icon">◇</span><div><strong>Phòng nghỉ tinh tế</strong><small>Thiết kế cho sự thoải mái</small></div></div><div class="hero-feature"><span class="feature-icon">⌖</span><div><strong>Vị trí thuận tiện</strong><small>Ở gần nơi bạn muốn đến</small></div></div><div class="hero-feature"><span class="feature-icon">✧</span><div><strong>Trải nghiệm trọn vẹn</strong><small>Chu đáo trong từng chi tiết</small></div></div></div></div><button class="hero-arrow hero-prev" aria-label="Ảnh trước">‹</button><button class="hero-arrow hero-next" aria-label="Ảnh tiếp">›</button><div class="hero-dots" aria-label="Chọn ảnh đầu trang"></div></section>
 <section class="booking-section" id="booking"><div class="container"><form class="booking-bar" id="booking-form"><label class="booking-field"><span>CHỌN VỊ TRÍ</span><select name="city" aria-label="Chọn vị trí"><option value="all">Tất cả địa điểm</option><option>TP. Hồ Chí Minh</option><option>Hà Nội</option><option>Đà Nẵng</option></select></label><div class="booking-field dates-field"><span>NGÀY NHẬN — TRẢ PHÒNG</span><div class="date-inputs"><input type="date" name="checkin" aria-label="Ngày nhận phòng"><b>→</b><input type="date" name="checkout" aria-label="Ngày trả phòng"></div></div><label class="booking-field"><span>KHÁCH</span><select name="guests" aria-label="Số khách"><option>1 khách</option><option selected>2 khách</option><option>3 khách</option><option>4 khách</option><option>5+ khách</option></select></label><button class="search-button" type="submit">⌕ &nbsp;TÌM KIẾM</button></form><p class="booking-message" id="booking-message" role="status"></p></div></section>
@@ -33,9 +33,9 @@ document.querySelector('#app').innerHTML = `
 <section class="discover section-pad" id="destinations"><div class="container"><div class="destination-heading"><div><p class="eyebrow">TÌM NƠI PHÙ HỢP VỚI BẠN</p><h2>Điểm đến</h2></div><div class="city-tabs" role="tablist" aria-label="Lọc theo thành phố"><button class="active" data-city="all" role="tab" aria-selected="true">Tất cả</button><button data-city="TP. Hồ Chí Minh" role="tab">TP. Hồ Chí Minh</button><button data-city="Hà Nội" role="tab">Hà Nội</button><button data-city="Đà Nẵng" role="tab">Đà Nẵng</button></div></div><div class="district-tabs" id="district-tabs" aria-label="Lọc theo khu vực"></div><div class="destination-layout"><aside class="filter-sidebar"><p class="filter-title">KHÁM PHÁ THEO PHONG CÁCH</p><button class="style-filter active" data-style="all"><span>Tất cả không gian</span><b>↗</b></button><button class="style-filter" data-style="city"><span>Giữa lòng thành phố</span><b>↗</b></button><button class="style-filter" data-style="quiet"><span>Yên tĩnh & thư thái</span><b>↗</b></button><button class="style-filter" data-style="view"><span>Góc nhìn đặc biệt</span><b>↗</b></button><div class="sidebar-note"><span>✧</span><p>Mỗi không gian Lifrooms đều được chọn để bạn an tâm tận hưởng hành trình.</p></div></aside><div><div class="results-heading"><strong id="result-count"></strong><span>Chọn điểm dừng yêu thích của bạn</span></div><div class="hotel-grid" id="hotel-grid"></div><div class="pagination" id="pagination"></div></div></div></div></section>
 <section class="story" id="experience" style="--story-image:url('${img.lounge}')"><div class="container story-grid"><div><p class="eyebrow light">TRẢI NGHIỆM LIFROOMS</p><h2>Không chỉ là<br>một nơi dừng chân.</h2><p>Mỗi không gian được chăm chút để bạn cảm thấy thân thuộc, thư thái và tự do tận hưởng hành trình theo cách riêng.</p><a class="text-link" href="#about">TÌM HIỂU THÊM ↗</a></div><div class="story-list"><article><span>01</span><div><h3>Thiết kế có cảm xúc</h3><p>Không gian hài hòa, ấm áp và đủ riêng tư để bạn thực sự nghỉ ngơi.</p></div></article><article><span>02</span><div><h3>Tiện nghi vừa vặn</h3><p>Từ giấc ngủ êm ái đến những tiện ích cần thiết, mọi thứ luôn sẵn sàng.</p></div></article><article><span>03</span><div><h3>Chăm sóc tận tâm</h3><p>Đội ngũ Lifrooms luôn đồng hành để mỗi chuyến đi thêm nhẹ nhàng.</p></div></article></div></div></section>
 <section class="numbers" id="about"><div class="container numbers-grid"><div><strong>06</strong><span>ĐIỂM LƯU TRÚ</span></div><div><strong>03</strong><span>THÀNH PHỐ</span></div><div><strong>24/7</strong><span>HỖ TRỢ KHÁCH HÀNG</span></div><div><strong>100%</strong><span>TẬN TÂM MỖI NGÀY</span></div></div></section>
-<section class="cta" style="--cta-image:url('${img.exterior}')"><div class="container"><p class="eyebrow light">BẮT ĐẦU HÀNH TRÌNH CỦA BẠN</p><h2>Chỗ ở lý tưởng đang<br><i>chờ bạn khám phá.</i></h2><p>Chọn điểm đến, đặt phòng và tận hưởng những ngày thật đáng nhớ cùng Lifrooms.</p><a class="solid-button" href="#booking">TÌM PHÒNG NGAY ↗</a></div></section>
+<section class="cta" style="--cta-image:url('${img.exterior}')"><div class="container"><p class="eyebrow light">BẮT ĐẦU HÀNH TRÌNH CỦA BẠN</p><h2>Chỗ ở lý tưởng đang<br><i>chờ bạn khám phá.</i></h2><p>Chọn điểm đến, đặt phòng và tận hưởng những ngày thật đáng nhớ cùng Lifrooms.</p><a class="solid-button" href="${import.meta.env.BASE_URL}?page=booking">TÌM PHÒNG NGAY ↗</a></div></section>
 </main><div class="recent-carousel" id="recent-carousel" hidden><button class="recent-close" aria-label="Đóng gợi ý khách sạn">×</button><div class="recent-content"></div><div class="recent-controls"><button data-recent-dir="-1" aria-label="Khách sạn trước">←</button><div class="recent-dots"></div><button data-recent-dir="1" aria-label="Khách sạn tiếp">→</button></div></div><div class="hotel-modal" id="hotel-modal" hidden><div class="modal-backdrop" data-close="modal"></div><div class="modal-panel" role="dialog" aria-modal="true" aria-labelledby="modal-title"><button class="modal-close" type="button" data-close="modal" aria-label="Đóng">×</button><img id="modal-image" alt=""><div class="modal-body"><p class="eyebrow" id="modal-location"></p><h2 id="modal-title"></h2><p id="modal-description"></p><div class="modal-amenities"><span>✓ Phòng nghỉ tiện nghi</span><span>✓ Hỗ trợ chu đáo</span><span>✓ Vị trí thuận tiện</span></div><a class="solid-button" id="modal-contact" href="mailto:hello@lifrooms.vn">LIÊN HỆ ĐẶT PHÒNG ↗</a></div></div></div>
-<footer class="footer"><div class="container footer-top"><div class="footer-intro">${logo}<p>Lifrooms mang đến những không gian lưu trú tin cậy, nơi sự thoải mái và trải nghiệm tốt đẹp luôn song hành.</p></div><div><h4>KHÁM PHÁ</h4><a href="#booking">Đặt phòng</a><a href="#destinations">Điểm đến</a><a href="#experience">Trải nghiệm</a></div><div><h4>LIÊN HỆ</h4><a href="mailto:hello@lifrooms.vn">hello@lifrooms.vn</a><p>Việt Nam</p></div></div><div class="container footer-bottom"><span>© 2026 Lifrooms. All rights reserved.</span><span>Your Trusted Partner</span></div></footer>`
+<footer class="footer"><div class="container footer-top"><div class="footer-intro">${logo}<p>Lifrooms mang đến những không gian lưu trú tin cậy, nơi sự thoải mái và trải nghiệm tốt đẹp luôn song hành.</p></div><div><h4>KHÁM PHÁ</h4><a href="${import.meta.env.BASE_URL}?page=booking">Đặt phòng</a><a href="#destinations">Điểm đến</a><a href="#experience">Trải nghiệm</a></div><div><h4>LIÊN HỆ</h4><a href="mailto:hello@lifrooms.vn">hello@lifrooms.vn</a><p>Việt Nam</p></div></div><div class="container footer-bottom"><span>© 2026 Lifrooms. All rights reserved.</span><span>Your Trusted Partner</span></div></footer>`
 
 const hero = document.querySelector('.hero')
 const bookingSection = document.querySelector('.booking-section')
@@ -100,7 +100,7 @@ function showHotels() {
   const pageSize = 6
   const totalPages = Math.max(1, Math.ceil(filtered.length / pageSize))
   currentPage = Math.min(currentPage, totalPages)
-  grid.innerHTML = filtered.slice((currentPage - 1) * pageSize, currentPage * pageSize).map(h => `<article class="hotel-card"><button class="hotel-image" data-hotel="${hotels.indexOf(h)}" aria-label="Xem ${h[0]}"><img src="${h[4]}" alt="Không gian ${h[0]}" loading="lazy"><span>${h[5]}</span></button><div class="hotel-content"><p class="card-eyebrow">${h[1]} · ${h[2]}</p><h3>${h[0]}</h3><p class="hotel-address">⌖ &nbsp;${h[3]}, ${h[2]}</p><a class="card-link" href="/booking?hotel=${hotels.indexOf(h)}&adults=2">Đặt ngay <span>↗</span></a></div></article>`).join('')
+  grid.innerHTML = filtered.slice((currentPage - 1) * pageSize, currentPage * pageSize).map(h => `<article class="hotel-card"><button class="hotel-image" data-hotel="${hotels.indexOf(h)}" aria-label="Xem ${h[0]}"><img src="${h[4]}" alt="Không gian ${h[0]}" loading="lazy"><span>${h[5]}</span></button><div class="hotel-content"><p class="card-eyebrow">${h[1]} · ${h[2]}</p><h3>${h[0]}</h3><p class="hotel-address">⌖ &nbsp;${h[3]}, ${h[2]}</p><a class="card-link" href="${import.meta.env.BASE_URL}?page=booking&hotel=${hotels.indexOf(h)}&adults=2">Đặt ngay <span>↗</span></a></div></article>`).join('')
   if (!filtered.length) grid.innerHTML = '<p class="no-results">Chưa có không gian phù hợp. Hãy thử bộ lọc khác.</p>'
   document.querySelector('#result-count').textContent = `${filtered.length.toString().padStart(2, '0')} không gian`
   document.querySelector('#pagination').innerHTML = totalPages > 1 ? Array.from({length: totalPages}, (_, i) => `<button class="${currentPage === i + 1 ? 'active' : ''}" data-page="${i + 1}" aria-label="Trang ${i + 1}">${i + 1}</button>`).join('') : ''
@@ -141,7 +141,7 @@ document.addEventListener('click', e => {
     document.querySelector('#modal-location').textContent = `${h[1]} · ${h[2]}`
     document.querySelector('#modal-title').textContent = h[0]
     document.querySelector('#modal-description').textContent = `${h[5]} tại ${h[3]}, ${h[2]}. Tận hưởng không gian lưu trú thoải mái và một hành trình thật đáng nhớ cùng Lifrooms.`
-    document.querySelector('#modal-contact').href = `/booking?hotel=${viewed}&adults=2`
+    document.querySelector('#modal-contact').href = `${import.meta.env.BASE_URL}?page=booking&hotel=${viewed}&adults=2`
     modal.hidden = false; document.body.style.overflow = 'hidden'; document.querySelector('.modal-close').focus()
   }
   if (e.target.closest('[data-close]')) { modal.hidden = true; document.body.style.overflow = '' }
@@ -152,10 +152,28 @@ function handleSearch(e) {
   const data = new FormData(e.currentTarget)
   const a = data.get('checkin'), b = data.get('checkout')
   const message = document.querySelector('#booking-message')
-  if (a && b && b <= a) { message.textContent = 'Ngày trả phòng cần sau ngày nhận phòng.'; return }
+  const showDateError = text => {
+    message.textContent = text
+    if (e.currentTarget === stickyForm) {
+      const field = e.currentTarget.elements.checkout
+      field.setCustomValidity(text)
+      field.reportValidity()
+      field.setCustomValidity('')
+    }
+  }
+  if (Boolean(a) !== Boolean(b)) { showDateError('Vui lòng chọn cả ngày nhận và ngày trả phòng.'); return }
+  if (a && b && b <= a) { showDateError('Ngày trả phòng cần sau ngày nhận phòng.'); return }
   message.textContent = ''
-  currentCity = data.get('city'); currentDistrict = 'all'; currentStyle = 'all'; currentPage = 1; showHotels()
-  document.querySelector('#destinations').scrollIntoView({ behavior: 'smooth' })
+  const destination = new URL(import.meta.env.BASE_URL, window.location.origin)
+  destination.searchParams.set('page', 'booking')
+  const hotelIndex = hotels.findIndex(hotel => hotel[1] === data.get('city'))
+  if (hotelIndex >= 0) destination.searchParams.set('hotel', String(hotelIndex))
+  destination.searchParams.set('adults', String(parseInt(data.get('guests'), 10) || 2))
+  if (a && b) {
+    destination.searchParams.set('date', a)
+    destination.searchParams.set('nights', String(Math.round((new Date(b + 'T12:00:00') - new Date(a + 'T12:00:00')) / 86400000)))
+  }
+  window.location.assign(destination.href)
 }
 document.querySelector('#booking-form').addEventListener('submit', handleSearch)
 stickyForm.addEventListener('submit', handleSearch)
